@@ -1,15 +1,17 @@
-package server.mediator;
+package client.mediator;
 
-import utility.observer.subject.RemoteSubject;
+import server.model.User;
+import server.model.UserList;
+import utility.observer.subject.LocalSubject;
 
 import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public interface RemoteModel extends Remote, RemoteSubject<ArrayList<String>,String> {
+public interface ClientInterface extends LocalSubject<String,String> {
 
-    void getAllUsers() throws RemoteException;
+    UserList getAllUsers() throws RemoteException;
     void addLog(String log) throws IOException,RemoteException;
     ArrayList<String> getLog() throws RemoteException;
     int getConnectedUsersInt() throws RemoteException;

@@ -1,10 +1,13 @@
 package client.view;
 
+import client.viewmodel.LogViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
-import viewmodel.LogViewModel;
+
+import java.rmi.RemoteException;
+
 
 public class LogViewController {
     @FXML
@@ -40,8 +43,7 @@ public class LogViewController {
     }
 
     @FXML
-    private void onEnterName()
-    {
+    private void onEnterName() throws RemoteException {
         viewModel.enterName();
         viewHandler.openView("Chat");
     }

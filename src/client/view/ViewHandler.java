@@ -4,7 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
-import viewmodel.ViewModelFactory;
+import client.viewmodel.ViewModelFactory;
 
 public class ViewHandler {
     private Scene currentScene;

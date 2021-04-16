@@ -1,28 +1,27 @@
 package server.model;
 
-import mediator.MessageClientHandler;
-import utility.observer.subject.NamedPropertyChangeSubject;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
+
+import utility.observer.listener.GeneralListener;
+import utility.observer.subject.LocalSubject;
+import utility.observer.subject.PropertyChangeHandler;
+
 import java.io.*;
 import java.util.ArrayList;
 
 public class ModelManager implements Model
 {
     private ArrayList<String> log;
-    private PropertyChangeSupport propertyChangeSupport;
     private UserList userList;
-    private ArrayList<MessageClientHandler> OnlineUsers;
     private File file;
     private PrintWriter out;
+    private PropertyChangeHandler<ArrayList<String>,String> propertyChangeHandler;
 
     public ModelManager() throws FileNotFoundException
     {
         this.log = new ArrayList<>();
         this.userList = new UserList();
-        this.propertyChangeSupport = new PropertyChangeSupport(this);
-        this.OnlineUsers = new ArrayList<>();
+        this.propertyChangeHandler = new PropertyChangeHandler<>(this);
         this.file = new File("ChatLogs.txt");
         out = new PrintWriter(new FileOutputStream(file), true);
         try {
@@ -47,7 +46,7 @@ public class ModelManager implements Model
     {
         log.add(log1);
         System.out.println("Added");
-        propertyChangeSupport.firePropertyChange("Log",null,log);
+        propertyChangeHandler.firePropertyChange("Log",log,null);
         System.out.println("logs");
         out.println(log1);
         out.flush();
@@ -64,9 +63,13 @@ public class ModelManager implements Model
         return userList.size();
     }
 
-    @Override public UserList getConnectedUsers()
+    @Override public ArrayList<String> getConnectedUsers()
     {
-        return userList;
+        ArrayList<String> returnArrayList = new ArrayList<>();
+        for(int i=0;i<getConnectedUsersInt();i++){
+            returnArrayList.add(getUser(i).getName());
+        }
+        return returnArrayList;
     }
 
 
@@ -80,25 +83,40 @@ public class ModelManager implements Model
         getAllUsers().removeUser(name);
     }
 
-    @Override public void addListener(String propertyName,
-                                      PropertyChangeListener listener)
-    {
-        if(propertyName == null)
-        {
-            propertyChangeSupport.addPropertyChangeListener(listener);
-        }
-        else propertyChangeSupport.addPropertyChangeListener(propertyName,listener);
+    @Override
+    public User getUser(int i) {
+        return userList.getUser(i);
     }
 
-    @Override public void removeListener(String propertyName,
-                                         PropertyChangeListener listener)
-    {
-        if(propertyName == null)
-        {
-            propertyChangeSupport.removePropertyChangeListener(listener);
-        }
-        else propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
+    @Override
+    public boolean addListener(GeneralListener<ArrayList<String>, String> listener, String... propertyNames) {
+        return false;
     }
+
+    @Override
+    public boolean removeListener(GeneralListener<ArrayList<String>, String> listener, String... propertyNames) {
+        return false;
+    }
+
+//    @Override public void addListener(String propertyName,
+//                                      PropertyChangeListener listener)
+//    {
+//        if(propertyName == null)
+//        {
+//            propertyChangeSupport.addPropertyChangeListener(listener);
+//        }
+//        else propertyChangeSupport.addPropertyChangeListener(propertyName,listener);
+//    }
+//
+//    @Override public void removeListener(String propertyName,
+//                                         PropertyChangeListener listener)
+//    {
+//        if(propertyName == null)
+//        {
+//            propertyChangeSupport.removePropertyChangeListener(listener);
+//        }
+//        else propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
+//    }
 }
 
 
