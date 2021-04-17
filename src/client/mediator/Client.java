@@ -26,7 +26,7 @@ public class Client implements ClientInterface, RemoteListener<String,String> {
 
     public Client(Model model) throws MalformedURLException, NotBoundException, RemoteException {
         this.model = model;
-        this.remoteModel = (RemoteModel) Naming.lookup("rmi://localhost:1099/messageServer");
+        this.remoteModel = (RemoteModel) Naming.lookup("rmi://localhost:1099/Message");
         UnicastRemoteObject.exportObject(this,0);
         propertyChangeHandler = new PropertyChangeHandler<>(this,true);
     }
