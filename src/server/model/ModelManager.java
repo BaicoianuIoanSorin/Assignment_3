@@ -46,7 +46,7 @@ public class ModelManager implements Model
     {
         log.add(log1);
         System.out.println("Added");
-        propertyChangeHandler.firePropertyChange("Log",log,null);
+        propertyChangeHandler.firePropertyChange("Added",log,null);
         System.out.println("logs");
         out.println(log1);
         out.flush();
@@ -90,12 +90,12 @@ public class ModelManager implements Model
 
     @Override
     public boolean addListener(GeneralListener<ArrayList<String>, String> listener, String... propertyNames) {
-        return false;
+        return propertyChangeHandler.addListener(listener,propertyNames);
     }
 
     @Override
     public boolean removeListener(GeneralListener<ArrayList<String>, String> listener, String... propertyNames) {
-        return false;
+        return propertyChangeHandler.removeListener(listener,propertyNames);
     }
 
 //    @Override public void addListener(String propertyName,

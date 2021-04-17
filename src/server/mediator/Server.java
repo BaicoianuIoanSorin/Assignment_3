@@ -1,11 +1,10 @@
 package server.mediator;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import server.model.Model;
-import server.model.User;
+import server.model.UserList;
+import utility.observer.event.ObserverEvent;
 import utility.observer.listener.GeneralListener;
 import utility.observer.subject.PropertyChangeHandler;
-import utility.observer.subject.RemoteSubject;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -24,13 +23,12 @@ public class Server implements RemoteModel {
     public Server(Model model) throws RemoteException, MalformedURLException{
         this.model = model;
         property = new PropertyChangeHandler<>(this,true);
-
-        startServer();
+        model.addListener(this);
     }
 
     @Override
-    public void getAllUsers() throws RemoteException {
-        model.getAllUsers();
+    public UserList getAllUsers() throws RemoteException {
+        return model.getAllUsers();
     }
 
     @Override
@@ -64,13 +62,18 @@ public class Server implements RemoteModel {
     }
 
     @Override
+    public void propertyChange(ObserverEvent<ArrayList<String>, String> event) throws RemoteException {
+        property.firePropertyChange(event);
+    }
+
+    @Override
     public boolean addListener(GeneralListener<ArrayList<String>, String> listener, String... propertyNames) throws RemoteException {
-        return false;
+         return property.addListener(listener,propertyNames);
     }
 
     @Override
     public boolean removeListener(GeneralListener<ArrayList<String>, String> listener, String... propertyNames) throws RemoteException {
-        return false;
+        return property.removeListener(listener,propertyNames);
     }
 
     public void startServer() throws RemoteException, MalformedURLException

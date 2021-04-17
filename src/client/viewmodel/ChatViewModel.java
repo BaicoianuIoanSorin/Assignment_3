@@ -14,13 +14,13 @@ import utility.observer.listener.LocalListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ChatViewModel implements LocalListener<ArrayList<String>,String> {
     private Model model;
     private ObservableList<String> messages;
     private StringProperty newMessage;
-    private StringProperty userNameInfo;
     private StringProperty activeUsers;
     private PropertyChangeSupport propertyChangeSupport;
     private static ChatViewModel instance;
@@ -32,7 +32,6 @@ public class ChatViewModel implements LocalListener<ArrayList<String>,String> {
         this.model = model;
         activeUsers = new SimpleStringProperty();
         newMessage = new SimpleStringProperty("");
-        userNameInfo = new SimpleStringProperty("");
         messages = FXCollections.observableArrayList();
         messages.addAll(model.getLogs());
         propertyChangeSupport = new PropertyChangeSupport(this);
@@ -58,11 +57,6 @@ public class ChatViewModel implements LocalListener<ArrayList<String>,String> {
         return newMessage;
     }
 
-    public StringProperty getUserNameInfoProperty()
-    {
-        return userNameInfo;
-    }
-
     public StringProperty getActiveUsersProperty()
     {
         return activeUsers;
@@ -76,15 +70,18 @@ public class ChatViewModel implements LocalListener<ArrayList<String>,String> {
     public void reset()
     {
         /** ->>> More variables to be added <<<- **/
-        messages.clear();
-        messages.addAll(model.getLogs());
-        newMessage.set("");
-        activeUsers.set(null);
+        Platform.runLater(() -> {
+            messages.clear();
+            messages.addAll(model.getLogs());
+            newMessage.set("");
+            activeUsers.set(null);
+        });
     }
 
-    public void sendMessage()
+    public void sendMessage() throws IOException
     {
-        propertyChangeSupport.firePropertyChange(model.getName(),null,newMessage.get());
+        model.addLog(newMessage.get());
+        reset();
     }
 
 

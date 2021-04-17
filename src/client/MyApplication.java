@@ -1,5 +1,6 @@
 package client;
 
+import client.mediator.Client;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import client.model.*;
@@ -16,6 +17,7 @@ public class MyApplication extends Application
       Model model = new ModelManager();
       ViewModelFactory viewModelFactory = new ViewModelFactory(model);
       ViewHandler view = new ViewHandler(viewModelFactory);
+      Client client = new Client(model);
       view.start(primaryStage);
     }
     catch (Exception e)

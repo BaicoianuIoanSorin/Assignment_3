@@ -12,6 +12,7 @@ public class ServerMain {
         try {
             Model serverHandler = new ModelManager();
             Server server = new Server(serverHandler);
+            server.startServer();
         }
         catch (Exception e)
         {

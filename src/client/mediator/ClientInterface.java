@@ -6,10 +6,10 @@ import utility.observer.subject.LocalSubject;
 
 import java.io.IOException;
 import java.rmi.Remote;
-import java.rmi.RemoteException;
+import java.rmi.*;
 import java.util.ArrayList;
 
-public interface ClientInterface extends LocalSubject<String,String> {
+public interface ClientInterface extends LocalSubject<ArrayList<String>,String> {
 
     UserList getAllUsers() throws RemoteException;
     void addLog(String log) throws IOException,RemoteException;

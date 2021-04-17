@@ -37,7 +37,7 @@
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RunManager" selected="Application.MessageClientName">
-    <configuration name="MessageClientName" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="MessageClientName" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="client.MessageClientName" />
       <module name="Assignment_3" />
       <extension name="coverage">
@@ -63,17 +63,23 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.MessageClientName" />
+      <item itemvalue="Application.ServerMain" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.MessageClientName" />
@@ -90,11 +96,23 @@
       <option name="presentableId" value="Default" />
       <updated>1618654701124</updated>
       <workItem from="1618654702375" duration="285000" />
-      <workItem from="1618654999512" duration="1372000" />
+      <workItem from="1618654999512" duration="4267000" />
+      <workItem from="1618671787216" duration="4543000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/client/MessageClientName.java</url>
+          <line>4</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

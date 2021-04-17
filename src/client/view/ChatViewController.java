@@ -7,13 +7,13 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
 
+import java.io.IOException;
+
 public class ChatViewController {
     @FXML
     private ListView<String> messages;
     @FXML
     private TextField newMessage;
-    @FXML
-    private Label userNameInfo;
     @FXML
     private Label activeUsers;
     private ViewHandler viewHandler;
@@ -30,10 +30,7 @@ public class ChatViewController {
         this.viewModel = viewModel;
         this.viewHandler = viewHandler;
         this.root = root;
-        userNameInfo.textProperty().set(viewModel.getUserNameInfoProperty().get());
         activeUsers.textProperty().bind(viewModel.getActiveUsersProperty());
-        //messages.itemsProperty().bind(viewModel.getListOfMessages());
-        //messages.getCellFactory();
         messages.setItems(viewModel.getListOfMessages());
         newMessage.textProperty().bindBidirectional(viewModel.getNewMessageProperty());
     }
@@ -48,7 +45,7 @@ public class ChatViewController {
         viewModel.reset();
     }
 
-    @FXML private void onSend()
+    @FXML private void onSend() throws IOException
     {
         viewModel.sendMessage();
         newMessage.setText("");

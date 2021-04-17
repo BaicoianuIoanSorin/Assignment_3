@@ -2,6 +2,9 @@ package client.model;
 
 import client.mediator.Client;
 import client.mediator.ClientInterface;
+import javafx.application.Platform;
+import server.mediator.RemoteModel;
+import server.mediator.Server;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.GeneralListener;
 import utility.observer.listener.LocalListener;
@@ -10,6 +13,7 @@ import utility.observer.subject.PropertyChangeHandler;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -21,6 +25,7 @@ public class ModelManager implements Model,LocalListener<ArrayList<String>,Strin
     private ClientInterface client;
     private ArrayList<String> log;
     private ArrayList<String> messages;
+    private RemoteModel server;
     private String name;
     //private PropertyChangeSupport propertyChangeSupport;
     private PropertyChangeHandler<ArrayList<String>,String> propertyChangeHandler;
@@ -40,7 +45,6 @@ public class ModelManager implements Model,LocalListener<ArrayList<String>,Strin
     public void login(String name) throws RemoteException {
         this.name = name;
         client.addUser(name);
-
 
     }
 
@@ -93,18 +97,19 @@ public class ModelManager implements Model,LocalListener<ArrayList<String>,Strin
     @Override
     public String getName()
     {
-
         return name;
     }
 
-    @Override public void addLog(String log)
+    @Override public void addLog(String log) throws IOException
     {
-        this.log.add(log);
+        client.addLog(name + ": " + log);
     }
 
     @Override
     public void propertyChange(ObserverEvent event) {
-        propertyChangeHandler.firePropertyChange(event);
+        Platform.runLater(() -> {
+            propertyChangeHandler.firePropertyChange(event);
+        });
     }
 
     @Override
